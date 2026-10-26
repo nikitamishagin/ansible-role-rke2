@@ -22,6 +22,8 @@ The Role can install the RKE2 in 3 modes:
 
 > It is possible to upgrade RKE2 by changing `rke2_version` variable and re-running the playbook with this role. During the upgrade process the RKE2 service on the nodes will be restarted: servers one by one, agents in batches of `rke2_agents_upgrade_batch_size` (default `1`, i.e. one by one). The Ansible Role will check if the node on which the service was restarted is in Ready state and only then proceed with restarting service on another Kubernetes node.
 >
+> Rolling restarts triggered by configuration changes follow the same approach: server nodes are restarted one by one first, then agent nodes in batches of `rke2_agents_upgrade_batch_size`.
+>
 > Optionally, set `rke2_reboot_node_after_upgrade: true` to reboot each node (instead of only restarting the RKE2 service) after it has been upgraded, still servers one by one and agents in batches of `rke2_agents_upgrade_batch_size` (default `1`). When the batch size is greater than 1, several nodes are drained at once, so ensure cluster capacity and PodDisruptionBudgets allow it, otherwise drains retry until timeout. The node is cordoned and drained first (implied automatically, regardless of `rke2_drain_node_during_upgrade`), then rebooted, and the role waits for it to come back and for all nodes to be `Ready` before proceeding to the next one (or batch). Use `rke2_reboot_timeout` (default `600` seconds) to bound how long to wait for a node to return.
 
 ## Requirements for Ansible Controller
