@@ -15,7 +15,6 @@
   delay: 15
   changed_when: false
   delegate_to: "{{ active_server | default(groups[rke2_servers_group_name].0) }}"
-  run_once: true
   when: rke2_drain_node_during_upgrade or rke2_reboot_node_after_upgrade
 
 - name: Restart RKE2 service on {{ rke2_node_name }}
@@ -57,7 +56,6 @@
     executable: /bin/bash
   changed_when: false
   delegate_to: "{{ active_server | default(groups[rke2_servers_group_name].0) }}"
-  run_once: true
   when: rke2_drain_node_during_upgrade or rke2_reboot_node_after_upgrade
 
 - name: Wait for all pods to be ready again
