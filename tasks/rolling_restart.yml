@@ -45,7 +45,6 @@
   retries: 100
   delay: 15
   delegate_to: "{{ active_server | default(groups[rke2_servers_group_name].0) }}"
-  run_once: true
 
 - name: Uncordon the node {{ rke2_node_name }}
   ansible.builtin.shell: |
